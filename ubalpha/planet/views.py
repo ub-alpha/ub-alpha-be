@@ -91,6 +91,29 @@ class DetailView(APIView):
             "planet_point": detail.point,
         })
     
-    class DetailCouponView(APIView):
-        def put(self, request, *args, **kwargs):
-            pass
+class DetailCouponView(APIView):
+
+    permission_classes = [
+        IsAuthenticated,
+    ]
+    
+    def put(self, request, *args, **kwargs):
+        member = request.user
+        detail = Detail.objects.filter(pk=kwargs.get('pk'), member=member)
+
+        if len(detail) == 0:
+            return Response({
+                "detail": "You are trying change wrong user's planet"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        detail = detail[0]
+        
+        if detail.status != 'unused':
+            return Response({
+                "detail": "It's not max level"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        detail.status = 'used'
+        detail.save()
+        
+        return Response(status=status.HTTP_200_OK)
