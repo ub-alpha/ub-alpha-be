@@ -82,7 +82,7 @@ class DetailView(APIView):
         member.point -= 10
 
         if detail.point >= character.max_point:
-            detail.status = "ununsed"
+            detail.status = "unused"
         
         detail.save()
         member.save()
