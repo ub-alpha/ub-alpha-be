@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'member.apps.MemberConfig',
-    'detail.apps.DetailConfig',
     'mission.apps.MissionConfig',
     'planet.apps.PlanetConfig',
     'character.apps.CharacterConfig',
