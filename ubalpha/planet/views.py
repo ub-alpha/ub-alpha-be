@@ -57,21 +57,31 @@ class DetailView(APIView):
 
     def put(self, request, *args, **kwargs):
         member = request.user
+        detail = Detail.objects.filter(pk=kwargs.get('pk'), member=member)
 
         if member.point < 10:
             return Response({
                 "detail": "You need more than 10 points to level up your planet"
             },status=status.HTTP_400_BAD_REQUEST)
 
-        detail = Detail.objects.get(pk=kwargs.get('pk'))
+        if len(detail) == 0:
+            return Response({
+                "detail": "You are trying to level up wrong user's planet"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        detail = detail[0]
+        character = Character.objects.get(pk=detail.planet.id)
 
-        if detail.point >= Character.objects.get(pk=detail.planet.id).max_point:
+        if detail.point >= character.max_point:
             return Response({
                 "detail": "It's already max level"
             },status=status.HTTP_400_BAD_REQUEST)
         
         detail.point += 10
         member.point -= 10
+
+        if detail.point >= character.max_point:
+            detail.status = "ununsed"
         
         detail.save()
         member.save()
@@ -80,3 +90,7 @@ class DetailView(APIView):
             "remained_point": member.point,
             "planet_point": detail.point,
         })
+    
+    class DetailCouponView(APIView):
+        def put(self, request, *args, **kwargs):
+            pass

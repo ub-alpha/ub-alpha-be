@@ -12,8 +12,9 @@ class Detail(models.Model):
     member = models.ForeignKey('member.Member', on_delete=models.CASCADE)
     planet = models.ForeignKey('planet.Planet', on_delete=models.CASCADE)
     character = models.ForeignKey('character.Character', on_delete=models.CASCADE)
-    status = models.CharField(max_length=128, default='unused',
+    status = models.CharField(max_length=128, default='unready',
         choices=(
+            ('unready', 'unready'),
             ('unused', 'unused'),
             ('used', 'used'),
         ),
