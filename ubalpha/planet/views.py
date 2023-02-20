@@ -1,4 +1,6 @@
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Planet, Detail
@@ -43,5 +45,32 @@ class DetailCreateView(
         return self.create(request, args, kwargs)
     
     def get(self, request, *args, **kwargs):
-        print(request.method)
         return self.list(request, *args, **kwargs)
+
+class DetailView(APIView):
+    
+    serializer_class = DetailSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    def put(self, request, *args, **kwargs):
+        member = request.user
+
+        if member.point < 10:
+            return Response({
+                "detail": "You need more than 10 points to level up your planet"
+            },status=status.HTTP_400_BAD_REQUEST)
+
+        detail = Detail.objects.get(pk=kwargs.get('pk'))
+        
+        detail.point += 10
+        member.point -= 10
+        
+        detail.save()
+        member.save()
+
+        return Response({
+            "remained_point": member.point,
+            "planet_point": detail.point,
+        })
