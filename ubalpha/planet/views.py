@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Planet, Detail
+from character.models import Character
+
 from .serializers import PlanetSerializer, DetailSerializer
 
 class PlanetListView(
@@ -48,8 +50,7 @@ class DetailCreateView(
         return self.list(request, *args, **kwargs)
 
 class DetailView(APIView):
-    
-    serializer_class = DetailSerializer
+
     permission_classes = [
         IsAuthenticated,
     ]
@@ -63,6 +64,11 @@ class DetailView(APIView):
             },status=status.HTTP_400_BAD_REQUEST)
 
         detail = Detail.objects.get(pk=kwargs.get('pk'))
+
+        if detail.point >= Character.objects.get(pk=detail.planet.id).max_point:
+            return Response({
+                "detail": "It's already max level"
+            },status=status.HTTP_400_BAD_REQUEST)
         
         detail.point += 10
         member.point -= 10
