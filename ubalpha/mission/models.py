@@ -20,7 +20,6 @@ class Log(models.Model):
     status = models.CharField(max_length=32, default='ready',
         choices=(
             ('ready', 'ready'),
-            ('clicked', 'clicked'),
             ('done', 'done')
         ),
     )
