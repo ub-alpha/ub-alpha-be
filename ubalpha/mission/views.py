@@ -6,8 +6,6 @@ from rest_framework.response import Response
 import datetime
 
 from .models import Mission, Log
-from member.models import Coupon
-from character.models import Character
 from .serializers import MissionSerializer, LogSerializer
 
 class MissionListView(

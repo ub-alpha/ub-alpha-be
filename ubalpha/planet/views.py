@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Planet, Detail
 from character.models import Character
+from member.models import Coupon
 
 from .serializers import PlanetSerializer, DetailSerializer
 
@@ -99,7 +100,8 @@ class DetailCouponView(APIView):
     
     def put(self, request, *args, **kwargs):
         member = request.user
-        detail = Detail.objects.filter(pk=kwargs.get('pk'), member=member)
+        detail = Detail.objects.filter(pk=kwargs.get('pk'), member=member)\
+                        .select_related('character')
 
         if len(detail) == 0:
             return Response({
@@ -110,10 +112,17 @@ class DetailCouponView(APIView):
         
         if detail.status != 'unused':
             return Response({
-                "detail": "It's not max level"
+                "detail": "You cannot change planet to coupon now"
             },status=status.HTTP_400_BAD_REQUEST)
         
         detail.status = 'used'
         detail.save()
         
-        return Response(status=status.HTTP_200_OK)
+        coupon = Coupon.objects.create(
+            detail = detail.character.image
+        )
+
+        return Response({
+            "id": coupon.id,
+            "coupon": coupon.detail,
+        } ,status=status.HTTP_200_OK)

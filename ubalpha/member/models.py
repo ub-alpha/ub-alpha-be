@@ -8,3 +8,10 @@ class Member(AbstractUser):
 
     class Meta:
         db_table = 'alpha_member'
+
+class Coupon(models.Model):
+    detail = models.CharField(max_length=256)
+    image = models.CharField(max_length=128)
+
+    class Meta:
+        db_table = 'alpha_coupon'
