@@ -28,5 +28,6 @@ urlpatterns = [
     path('v1/members', include('member.urls')),
     path('v1/characters', include('character.urls')),
     path('v1/missions', include('mission.urls')),
+    path('v1/planets', include('planet.urls')),
     path('v1/token', TokenObtainPairView.as_view()),
 ]
