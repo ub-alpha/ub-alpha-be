@@ -25,9 +25,9 @@ from rest_framework_simplejwt.views import(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/members', include('member.urls')),
-    path('v1/characters', include('character.urls')),
-    path('v1/missions', include('mission.urls')),
-    path('v1/planets', include('planet.urls')),
+    path('v1/member', include('member.urls')),
+    path('v1/character', include('character.urls')),
+    path('v1/mission', include('mission.urls')),
+    path('v1/planet', include('planet.urls')),
     path('v1/token', TokenObtainPairView.as_view()),
 ]
