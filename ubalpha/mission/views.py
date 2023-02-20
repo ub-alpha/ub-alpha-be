@@ -1,10 +1,13 @@
 from rest_framework import mixins, generics, status
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 import datetime
 
 from .models import Mission, Log
+from member.models import Coupon
+from character.models import Character
 from .serializers import MissionSerializer, LogSerializer
 
 class MissionListView(
@@ -50,3 +53,37 @@ class LogCreateView(
             }, status=status.HTTP_400_BAD_REQUEST)
 
         return self.create(request, args, kwargs)
+
+class LogUpdateView(APIView):
+
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    def put(self, request, *args, **kwargs):
+        member = request.user
+        log = Log.objects.filter(pk=kwargs.get('pk'), member=member)\
+                        .select_related('mission')
+
+        if len(log) == 0:
+            return Response({
+                "detail": "You are trying to do wrong user's mission"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        log = log[0]
+
+        if log.status != 'ready':
+            return Response({
+                "detail": "Duplicated access"
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        log.status = 'done'
+        log.save()
+
+        member.point += log.mission.point
+        member.save()
+
+        return Response({
+            "mission": log.mission_id,
+            "status": log.status,
+        }, status=status.HTTP_200_OK)
