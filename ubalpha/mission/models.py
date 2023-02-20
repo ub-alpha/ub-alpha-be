@@ -9,6 +9,7 @@ class Mission(models.Model):
             ('welcome', 'welcome'),
         )
     )
+    mission = models.CharField(max_length=512)
 
     class Meta:
         db_table = 'alpha_mission'
