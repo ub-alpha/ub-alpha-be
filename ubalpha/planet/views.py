@@ -1,3 +1,6 @@
+import string
+import random
+
 from rest_framework import generics, mixins, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -117,9 +120,11 @@ class DetailCouponView(APIView):
         
         detail.status = 'used'
         detail.save()
+
+        letters = string.ascii_lowercase + string.digits
         
         coupon = Coupon.objects.create(
-            detail = detail.character.image
+            detail = ''.join(random.choice(letters) for i in range(7))
         )
 
         return Response({
