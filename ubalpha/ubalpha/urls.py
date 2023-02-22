@@ -30,4 +30,5 @@ urlpatterns = [
     path('v1/mission', include('mission.urls')),
     path('v1/planet', include('planet.urls')),
     path('v1/token', TokenObtainPairView.as_view()),
+    path('v1/refresh', TokenRefreshView.as_view()),
 ]
