@@ -16,12 +16,16 @@ class DetailSerializer(serializers.ModelSerializer):
     
     planet_img = serializers.SerializerMethodField()
     max_point = serializers.SerializerMethodField()
+    character_img = serializers.SerializerMethodField()
 
     def get_planet_img(self, obj):
         return obj.planet.image
     
     def get_max_point(self, obj):
         return obj.character.max_point
+    
+    def get_character_img(self, obj):
+        return obj.character.image
 
     class Meta:
         model = Detail
