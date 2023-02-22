@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import MemberSerializer
+from .models import Member
 
 class MemberRegisterView(
     mixins.CreateModelMixin,
@@ -43,3 +44,15 @@ class MemberDetailView(
         return Response({
             "spacename": member.spacename
         }, status=status.HTTP_200_OK)
+    
+class MemberPointView(
+    mixins.UpdateModelMixin,
+    generics.GenericAPIView,
+):
+    serializer_class = MemberSerializer
+
+    def get_queryset(self):
+        return Member.objects.all()
+    
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, args, kwargs)
