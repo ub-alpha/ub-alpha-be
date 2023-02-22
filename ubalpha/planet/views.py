@@ -42,7 +42,7 @@ class DetailCreateView(
         if self.request.method == 'GET':
             details = details.filter(member_id=self.request.user.id)
 
-        return details.order_by('id')
+        return details.order_by('status', '-id')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, args, kwargs)
