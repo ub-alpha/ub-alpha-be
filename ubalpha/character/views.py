@@ -11,7 +11,7 @@ class CharacterListView(
     serializer_class = CharacterSerializer
 
     def get_queryset(self):
-        return Character.objects.all().order_by('id')
+        return Character.objects.all().order_by('max_origin')
     
     def get(self, request, *args, **kwargs):
         return self.list(request, args, kwargs)
