@@ -10,20 +10,15 @@ class MissionSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         log = Log.objects.filter(member=self.context['request'].user, mission=obj.id)
+        print(log)
         if len(log) == 0:
             return 'notready'
-        if obj.category == 'welcome':
-            return log[0].status
-        if log[len(log)-1].created_at != datetime.datetime.now().date():
-            return 'notready'
-        return 'ready'
+        return log[len(log)-1].status
     
     def get_log_id(self, obj):
         log = Log.objects.filter(member=self.context['request'].user, mission=obj.id)
         if len(log) == 0:
             return 0
-        if obj.category == 'welcome':
-            return log[0].id
         return log[len(log)-1].id
 
     class Meta:
