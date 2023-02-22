@@ -71,7 +71,7 @@ class DetailView(APIView):
             },status=status.HTTP_400_BAD_REQUEST)
         
         detail = detail[0]
-        character = Character.objects.filter(pk=detail.character.id)
+        character = Character.objects.filter(pk=detail.character.id)[0]
 
         if detail.point >= character.max_point:
             return Response({
