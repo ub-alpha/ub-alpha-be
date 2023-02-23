@@ -40,7 +40,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "http://34.64.205.124/",
+    # "http://34.64.205.124/",
 ]
 
 
