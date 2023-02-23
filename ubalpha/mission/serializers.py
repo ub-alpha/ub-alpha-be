@@ -10,14 +10,15 @@ class MissionSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         log = Log.objects.filter(member=self.context['request'].user, mission=obj.id)
-        print(log)
-        if len(log) == 0:
+        today = log.filter(created_at = datetime.datetime.now().date())
+        if len(log) == 0 or len(today) == 0:
             return 'notready'
         return log[len(log)-1].status
     
     def get_log_id(self, obj):
         log = Log.objects.filter(member=self.context['request'].user, mission=obj.id)
-        if len(log) == 0:
+        today = log.filter(created_at = datetime.datetime.now().date())
+        if len(log) == 0 or len(today) == 0:
             return 0
         return log[len(log)-1].id
 
