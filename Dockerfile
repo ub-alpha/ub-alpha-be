@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 RUN pip install -r requirements.txt
-RUN python manage.py migrate
+RUN python ubalpha/manage.py migrate
 
 USER root
 EXPOSE 8000
