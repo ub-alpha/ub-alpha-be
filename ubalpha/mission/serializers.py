@@ -15,7 +15,7 @@ class MissionSerializer(serializers.ModelSerializer):
             return 'notready'
         if len(today) == 0 and obj.category == 'today':
             return 'notready'
-        if len(log == 0):
+        if len(log) == 0:
             return 'notready'
         return log[len(log)-1].status
     
@@ -26,7 +26,7 @@ class MissionSerializer(serializers.ModelSerializer):
             return 0
         if len(today) == 0 and obj.category == 'today':
             return 0
-        if len(log == 0):
+        if len(log) == 0:
             return 'notready'
         return log[len(log)-1].id
 
