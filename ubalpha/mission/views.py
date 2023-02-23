@@ -40,12 +40,14 @@ class LogCreateView(
         mission_id = request.data.get('mission')
         mission = Mission.objects.filter(id=mission_id)
         if mission[0].category == 'welcome':
-            if len(Log.objects.filter(mission=mission_id)) != 0:
+            if len(Log.objects.filter(mission=mission_id, member=request.user)) != 0:
+                print("first")
                 return Response({
                     "detail": "Duplicated access"
                 }, status=status.HTTP_400_BAD_REQUEST)
         
         if mission[0].category == 'daily' and len(Log.objects.filter(member=request.user, mission=mission_id, created_at=datetime.datetime.now().date())) != 0:
+            print('second')
             return Response({
                 "detail": "Duplicated access"
             }, status=status.HTTP_400_BAD_REQUEST)
