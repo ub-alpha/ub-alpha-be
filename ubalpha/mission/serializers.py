@@ -27,7 +27,7 @@ class MissionSerializer(serializers.ModelSerializer):
         if len(today) == 0 and obj.category == 'today':
             return 0
         if len(log) == 0:
-            return 'notready'
+            return 0
         return log[len(log)-1].id
 
     class Meta:
