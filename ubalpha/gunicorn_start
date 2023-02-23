@@ -2,4 +2,4 @@ export DJANGO_SETTINGS_MODULE=ubalpha.settings
 export PYTHONPATH=/usr/src/app:$PYTHONPATH
 export DJANGO_WSGI_MODULE=ubalpha.wsgi
 
-exec gunicorn ubalpha.wsgi:application --name APP --workers 2 --user root --bind 0.0.0.0:8000W
+exec gunicorn ubalpha.wsgi:application --name APP --workers 2 --user root --bind 0.0.0.0:8000
