@@ -163,5 +163,5 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 CORS_ORIGIN_WHITELIST=[
-    'http://localhost:8080',
+    'http://34.64.205.124',
 ]
